@@ -53,3 +53,8 @@ REGEX = '^(DDC-[0-9]*)\. [\w .,+]*\.$'
 ```
 
 To test your regex you can simply do so [here](http://pythex.org/)
+
+
+## License
+
+git-commit-msg is released under the MIT license.
