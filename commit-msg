@@ -1,0 +1,4 @@
+#!/bin/sh
+
+exec < /dev/tty
+./.git/hooks/jira-commit-msg.py $1
