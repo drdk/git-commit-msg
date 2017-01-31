@@ -49,7 +49,7 @@ To customize the message validation to your liking simply modify the existing re
 line 6 in jira-commit-msg.py
 
 ```
-REGEX = '^(DDC-[0-9]*)\. [\w .,+]*\.$'
+REGEX = '^DDC-[\d]{4}\. [\w\d .,:;+]*\.$'
 ```
 
 To test your regex you can simply do so [here](http://pythex.org/)
