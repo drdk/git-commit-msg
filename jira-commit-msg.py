@@ -2,8 +2,35 @@
 
 import sys
 import re
+import subprocess
 
-REGEX = '^(DDC-[0-9]*)\. [\w .,+]*\.$'
+
+REGEX = '^DDC-[\d]{4}\. [\w\d .,:;+]*\.$'
+
+
+def current_branch_name():
+  """Gets the current GIT branch name.
+
+  Returns:
+    string: The current branch name.
+  """
+  return subprocess.check_output(['git', 'rev-parse', '--abbrev-ref', 'HEAD'])
+
+
+def get_jira_issue_hint(branch_name):
+  """Extracts the Jira issue number from the branch name.
+
+  Args:
+    branch_name (str): The branch name to parse.
+
+  Returns:
+    string: The Jira issue number, or sample issue number.
+  """
+  match = re.findall('feature/(DDC-[\d]{4})-', branch_name)
+  if match and match[0]:
+    return match[0]
+  return 'DDC-XXXX'
+
 
 def valid_commit_message(message):
   """Function to validate the commit message.
@@ -15,12 +42,15 @@ def valid_commit_message(message):
     bool: True for valid messages, False otherwise.
   """
   if not re.match(REGEX, message):
+    name = current_branch_name()
+    issue_number = get_jira_issue_hint(name)
     print 'ERROR: Missing Jira number in commmit message.'
-    print 'Format "DDC-XXXX. Message."'
+    print 'Hint: {0}. Commit message.'.format(issue_number)
     return False
 
   print 'Commit message is valid.'
   return True
+
 
 def main():
   """Main function."""
@@ -35,6 +65,7 @@ def main():
     sys.exit(1)
 
   sys.exit(0)
+
 
 if __name__ == "__main__":
   main()
