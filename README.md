@@ -6,7 +6,6 @@ Simple git commit-msg hook to ensure that commit messages contain Jira issue id'
 ## Requirements
 
 - Python 2.6
-- bash
 
 
 ## Installation
@@ -44,12 +43,11 @@ DDC-1234. Sample commit message.
 
 ## Customize
 
-To customize the message validation to your liking simply modify the existing regex.
-
-line 6 in jira-commit-msg.py
+To customize the message validation to your liking simply modify the existing regular expressions in jira-commit-msg.py
 
 ```
-REGEX = '^(DDC-[0-9]*)\. [\w .,+]*\.$'
+MESSAGE_REGEX = '^DDC-[\d]{4}\. [\w\d .,:;+]*\.$'
+BRANCHNAME_REGEX = '/(DDC-[\d]{4})-' #should contain a capturing group
 ```
 
 To test your regex you can simply do so [here](http://pythex.org/)
