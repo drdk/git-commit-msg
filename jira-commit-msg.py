@@ -5,7 +5,8 @@ import re
 import subprocess
 
 
-REGEX = '^DDC-[\d]{4}\. [\w\d .,:;+]*\.$'
+MESSAGE_REGEX = '^DDC-[\d]{4}\. [\w\d .,:;+]*\.$'
+BRANCHNAME_REGEX = '/(DDC-[\d]{4})-' #should contain a capturing group
 
 
 def current_branch_name():
@@ -26,7 +27,7 @@ def get_jira_issue_hint(branch_name):
   Returns:
     string: The Jira issue number, or sample issue number.
   """
-  match = re.findall('feature/(DDC-[\d]{4})-', branch_name)
+  match = re.findall(BRANCHNAME_REGEX, branch_name)
   if match and match[0]:
     return match[0]
   return 'DDC-XXXX'
@@ -41,7 +42,7 @@ def valid_commit_message(message):
   Returns:
     bool: True for valid messages, False otherwise.
   """
-  if not re.match(REGEX, message):
+  if not re.match(MESSAGE_REGEX, message):
     name = current_branch_name()
     issue_number = get_jira_issue_hint(name)
     print 'ERROR: Missing Jira number in commmit message.'
